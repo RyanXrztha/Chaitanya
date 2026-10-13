@@ -42,3 +42,7 @@ next-env.d.ts
 
 AGENTS.md
 CLAUDE.md
+
+# local planning and handoff files
+commit_plan.md
+/design_handoff_chaitanya_website/
