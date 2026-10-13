@@ -1,1 +1,699 @@
 @import "tailwindcss";
+
+/*
+ * Chaitanya design system — tokens from design_handoff_chaitanya_website/README.md,
+ * cross-checked against the inline styles of the *.dc.html prototypes and motion.js.
+ */
+
+/* Font family vars come from next/font (see src/presentation/fonts), so they are
+   referenced with `inline` to resolve at use-site. */
+@theme inline {
+  --font-heading: var(--font-el-messiri), "El Messiri", sans-serif;
+  --font-body: var(--font-lato), "Lato", system-ui, sans-serif;
+  --font-sans: var(--font-lato), "Lato", system-ui, sans-serif;
+}
+
+@theme {
+  /* ── Breakpoints ──────────────────────────────────────────────
+     Primary: mobile ≤760 · tablet 761–1100 · desktop >1100.
+     The others mirror secondary media queries used by the prototypes. */
+  --breakpoint-*: initial;
+  --breakpoint-xs: 481px;      /* max-xs: ≤480 */
+  --breakpoint-sm: 561px;      /* max-sm: ≤560 */
+  --breakpoint-md: 641px;      /* max-md: ≤640 — dropdowns become bottom sheets */
+  --breakpoint-tablet: 761px;  /* max-tablet: ≤760 — mobile */
+  --breakpoint-lg: 961px;      /* max-lg: ≤960 — header shrinks to 68px */
+  --breakpoint-xl: 1025px;     /* max-xl: ≤1024 — detail pages stack */
+  --breakpoint-desktop: 1101px;/* max-desktop: ≤1100 — hamburger nav */
+
+  /* ── Colour: brand teal ─────────────────────────────────────── */
+  --color-brand: #007d67;
+  --color-brand-100: #e3f5f0;
+  --color-brand-200: #c2e8de;
+  --color-brand-300: #8fd3c4;
+  --color-brand-400: #4fbba5;
+  --color-brand-500: #007d67;
+  --color-brand-600: #046b59;
+  --color-brand-700: #045a4a;
+  --color-brand-800: #072e34;
+  --color-brand-900: #041519;
+
+  /* ── Colour: ink & neutrals ─────────────────────────────────── */
+  --color-ink: #201e1d;          /* headings / body on white */
+  --color-ink-dark: #072e34;     /* dark sections, default inherited text */
+  --color-ink-2: #4a473f;        /* secondary copy */
+  --color-ink-3: #5c5648;        /* secondary copy (warm) */
+  --color-muted: #6b6a63;        /* meta, captions, breadcrumbs */
+  --color-subtle: #8a8577;       /* tertiary meta */
+  --color-line: #eceae4;         /* hairlines */
+  --color-line-2: #e4e2dc;
+  --color-line-3: #d8d6cc;       /* input borders */
+  --color-line-4: #e6e4da;
+  --color-surface: #f5f6f4;      /* light grey section bg */
+  --color-surface-2: #f5f5f3;
+  --color-surface-3: #f0f1ee;    /* search button, quiet fills */
+  --color-cream: #f7f4ee;
+  --color-danger: #b3261e;
+
+  /* ── Typography ─────────────────────────────────────────────── */
+  --text-display: clamp(36px, 5vw, 64px);
+  --text-display--line-height: 1.1;
+  /* motion.js forces every non-hero H2 (and an H3 right after an eyebrow) to this. */
+  --text-h2: clamp(24px, 6.4vw, 32px);
+  --text-h2--line-height: 1.12;
+  --text-eyebrow: 13px;
+  --text-eyebrow--line-height: 1.3;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-body: 15px;
+  --text-body--line-height: 1.6;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 1.65;
+  --tracking-eyebrow: 0.12em;
+
+  /* ── Spacing (8pt named scale; numeric p-4 = 16px etc. still work) ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 96px;
+  --spacing-5xl: 128px;
+  --spacing-gutter: clamp(24px, 6vw, 64px);
+  --spacing-gutter-wide: clamp(24px, 6vw, 128px);
+  --spacing-section: clamp(48px, 6vw, 64px);
+  --spacing-section-lg: clamp(64px, 8vw, 96px);
+  --spacing-header: 76px;
+  --spacing-header-sm: 68px;
+
+  /* ── Containers ─────────────────────────────────────────────── */
+  --container-content: 1200px;
+  --container-site: 1312px;      /* header / footer shells */
+  --container-wide: 1600px;
+
+  /* ── Radius ───────────────────────────────────────────────────
+     As rendered by the motion.js "sharp-edge system" (measured in the prototypes):
+     square by default; 6 small chips/badges · 8 controls · 12 cards, media,
+     menus · 16 large panels (≥560×420) · 20 service tiles (14 ≤560px).
+     Full-bleed blocks and edge-anchored sheets stay square. */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-chip: 6px;
+  --radius-control: 8px;
+  --radius-menu: 12px;
+  --radius-card: 12px;
+  --radius-panel: 16px;
+  --radius-tile: 20px;
+
+  /* ── Shadow (minimal) ───────────────────────────────────────── */
+  --shadow-popover: 0 12px 32px rgba(7, 46, 52, 0.12);
+  --shadow-drawer: 0 0 48px rgba(7, 46, 52, 0.16);
+  --shadow-nav: 0 6px 24px -10px rgba(7, 46, 52, 0.18), 0 1px 0 rgba(7, 46, 52, 0.06);
+  --shadow-focus: 0 0 0 4px rgba(0, 125, 103, 0.14);
+  --shadow-fab: 0 12px 26px -10px rgba(0, 125, 103, 0.7);
+
+  /* ── Motion ─────────────────────────────────────────────────── */
+  --ease-chy: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-zoom: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bar: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --animate-skeleton: chy-skeleton 1.3s linear infinite;
+  --animate-fade-in: chy-fade-in 0.5s ease both;
+  --animate-line-wipe: chy-line-wipe 0.9s var(--ease-chy) both;
+  --animate-scroll-dot: chy-scroll-dot 2s var(--ease-chy) infinite;
+
+  @keyframes chy-skeleton {
+    from { background-position: 120% 0; }
+    to { background-position: -120% 0; }
+  }
+  @keyframes chy-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes chy-line-wipe {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes chy-scroll-dot {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    70% { transform: translateY(12px); opacity: 0; }
+    100% { transform: translateY(12px); opacity: 0; }
+  }
+}
+
+/* ── Base ──────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* motion.js › responsive layer: nothing (e.g. a scroll-reveal still offset
+     sideways) may widen the page. `clip` keeps position: sticky working. */
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  /* Mirrors the prototypes' base theme (_ds/styles.css + page overrides): every
+     element without explicit type inherits 15px / 1.55. */
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--color-ink-dark);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.12;
+    /* Base theme default; the home page (index.html) overrides it to 0.008em. */
+    letter-spacing: var(--heading-tracking, -0.015em);
+    margin: 0 0 8px;
+  }
+  h1 { font-size: 42px; }
+  h2 { font-size: var(--text-h2); }
+  h3 { font-size: 25px; }
+  h4 { font-size: 20px; }
+  h5 { font-size: 16px; }
+  h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  p {
+    margin: 0 0 12px;
+  }
+
+  figure {
+    margin: 0;
+  }
+  figcaption {
+    margin-top: 4px;
+    font-size: 11px;
+    color: color-mix(in srgb, var(--color-ink-dark) 55%, transparent);
+  }
+
+  a {
+    color: var(--color-brand);
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    color: var(--color-brand-700);
+  }
+
+  /* All buttons use Lato 500 (README › Typography). */
+  button {
+    font-family: var(--font-body);
+    font-weight: 500;
+    /* UA default, as in the prototypes (Tailwind preflight would inherit 1.55). */
+    line-height: normal;
+    cursor: pointer;
+  }
+
+  img {
+    image-rendering: high-quality;
+  }
+
+  input, select, textarea {
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: var(--shadow-focus);
+  }
+
+  /* Never below 16px on mobile — prevents iOS focus zoom. */
+  @media (max-width: 760px) {
+    input, select, textarea {
+      font-size: max(16px, 1em);
+    }
+  }
+}
+
+/* ── Shared interaction utilities (ported from motion.js) ──────── */
+
+/* Eyebrow / pre-header with the naturopathy ornaments on each side. */
+@utility eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.3;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: none;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  &::before {
+    width: 79px;
+    background-image: url("/icons/eyebrow-left.svg");
+  }
+  &::after {
+    width: 47px;
+    background-image: url("/icons/eyebrow-right.svg");
+  }
+
+  @media (max-width: 640px) {
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    &::before {
+      width: 52px;
+      height: 15px;
+      background-position: right center;
+      background-size: auto 100%;
+    }
+    &::after {
+      width: 30px;
+      height: 15px;
+      background-position: left center;
+      background-size: auto 100%;
+    }
+  }
+}
+
+/* Primary/secondary button fill-sweep (motion.js › [data-chy-btn]). */
+@utility btn-sweep {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    color 0.35s var(--ease-chy),
+    border-color 0.35s var(--ease-chy),
+    background-color 0.35s ease,
+    scale 0.2s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: currentColor;
+    opacity: 0.12;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.5s var(--ease-chy);
+    pointer-events: none;
+  }
+  &:hover::before,
+  &:focus-visible::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+  & svg {
+    transition: translate 0.45s var(--ease-chy);
+  }
+  &:hover svg:last-child:not(:first-child) {
+    translate: 3px 0;
+  }
+  &:active {
+    scale: 0.98;
+    transition: scale 0.12s ease;
+  }
+  @media (hover: none) {
+    &:hover::before {
+      transform: scaleX(0);
+    }
+  }
+}
+
+/* Image zoom inside a clipped frame (motion.js › [data-chy-zoom]). */
+@utility zoom-frame {
+  overflow: hidden;
+  & :is(img, video) {
+    transition: scale 1.4s var(--ease-zoom);
+  }
+  &:hover :is(img, video),
+  :where(.group):hover & :is(img, video) {
+    scale: 1.045;
+  }
+  @media (hover: none) {
+    &:hover :is(img, video),
+    :where(.group):hover & :is(img, video) {
+      scale: 1;
+    }
+  }
+}
+
+/* Underline that grows from the left (motion.js › [data-chy-link]). */
+@utility link-grow {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  text-decoration: none;
+  transition:
+    background-size 0.35s var(--ease-chy),
+    color 0.25s ease,
+    opacity 0.25s ease;
+  &:hover,
+  &[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+}
+
+/* Image skeleton shimmer while loading. */
+@utility skeleton {
+  background: linear-gradient(100deg, #eceee9 30%, #f6f7f4 50%, #eceee9 70%);
+  background-size: 220% 100%;
+  animation: var(--animate-skeleton);
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Overlay / menu entrance keyframes (SiteHeader.dc.html, motion.js). */
+@keyframes chy-menu-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes chy-mega-item {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes chy-dd-in {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes chy-sheet-in {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+@keyframes chy-nav-in {
+  from { translate: 0 -110%; }
+  to { translate: 0 0; }
+}
+@keyframes chy-ken-burns {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.12) translate(-1.5%, -1%); }
+}
+@keyframes chy-footer-drift {
+  0%, 100% { transform: translate(-50%, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(-46%, 4%) scale(1.08); opacity: 0.9; }
+}
+/* Catalogue lists (Services.dc.html / Products.dc.html). */
+@keyframes chy-sv-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Booking (Booking.dc.html). */
+@keyframes chy-bk-bar-shine {
+  0% { background-position: -60% 0; }
+  100% { background-position: 160% 0; }
+}
+@keyframes chy-success-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes chy-check-pop {
+  from { opacity: 0; transform: scale(0.3); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes chy-confetti-fall {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg) scale(0.4); }
+  6% { opacity: 1; transform: translate3d(calc(var(--bx) * 0.35), calc(var(--by) * 0.35), 0) rotate(calc(var(--rot) * 0.15)) scale(1); }
+  32% { transform: translate3d(var(--bx), var(--by), 0) rotate(calc(var(--rot) * 0.4)) scale(1); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot)) scale(0.9); }
+}
+@keyframes chy-confetti-sway {
+  0%, 100% { margin-left: 0; }
+  50% { margin-left: var(--sway); }
+}
+@keyframes chy-confetti-flip {
+  0%, 100% { transform: rotateX(0deg); }
+  50% { transform: rotateX(180deg); }
+}
+@keyframes chy-burst-ring {
+  0% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.2); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.6); }
+}
+@keyframes chy-modal-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Product detail (ProductDetail.dc.html). */
+@keyframes chy-pd-toast-in {
+  from { opacity: 0; transform: translate(-50%, 16px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes chy-pd-modal-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Contact / Reviews / Membership photo heroes (heroExpandDown). */
+@keyframes chy-hero-expand-down {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+/* Reviews (Reviews.dc.html). */
+@keyframes chy-award-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes chy-award-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes chy-award-pulse {
+  0%, 100% { transform: scale(0.92); opacity: 0.7; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+@keyframes chy-award-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes chy-marquee-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+/* Membership (Membership.dc.html). */
+@keyframes chy-gold-shine {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes chy-icon-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.06); }
+}
+
+/* Dual-thumb price slider: two stacked range inputs, only the thumbs take pointer events. */
+.range-dual input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+  background: transparent;
+}
+.range-dual input[type="range"]:focus-visible {
+  outline: none;
+}
+.range-dual input[type="range"]::-webkit-slider-runnable-track {
+  background: transparent;
+  height: 32px;
+}
+.range-dual input[type="range"]::-moz-range-track {
+  background: transparent;
+}
+.range-dual input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 22px;
+  height: 22px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--color-brand);
+  box-shadow: 0 2px 8px rgba(7, 46, 52, 0.25);
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.range-dual input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--color-brand);
+  box-shadow: 0 2px 8px rgba(7, 46, 52, 0.25);
+  cursor: grab;
+}
+.range-dual input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 6px rgba(0, 125, 103, 0.14), 0 2px 8px rgba(7, 46, 52, 0.25);
+}
+.range-dual input[type="range"]:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.15);
+}
+.range-dual input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 6px rgba(0, 125, 103, 0.24);
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Home page (index.html <style>). */
+@keyframes chy-hero-fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes chy-about-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes chy-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes chy-mouse-dot {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(12px); opacity: 0; }
+}
+@keyframes chy-scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(10px); opacity: 1; }
+}
+@keyframes chy-award-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes chy-award-card-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes chy-gold-shimmer {
+  0% { transform: translateX(-120%) rotate(8deg); }
+  100% { transform: translateX(220%) rotate(8deg); }
+}
+@keyframes chy-confetti-burst {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.4); }
+}
+@keyframes chy-bar-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(320%); }
+}
+
+@keyframes chy-intro-logo {
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes chy-intro-bar {
+  to { transform: scaleX(1); }
+}
+
+/* Scroll-reveal states, driven by the useReveal hook via data-reveal. */
+@layer components {
+  /* Nav link label that rolls up to a duplicate on hover (motion.js › chy-roll). */
+  .nav-roll {
+    display: inline-flex;
+    overflow: hidden;
+    height: calc(1.35em + 8px);
+    line-height: 1.35em;
+    padding: 4px 3px;
+    margin: -4px -3px;
+    box-sizing: border-box;
+  }
+  .nav-roll > span {
+    display: block;
+    position: relative;
+    transition: transform 0.5s var(--ease-chy);
+    will-change: transform;
+  }
+  .nav-roll > span::after {
+    content: attr(data-l);
+    position: absolute;
+    left: 0;
+    top: calc(1.35em + 8px);
+    white-space: nowrap;
+  }
+  @media (hover: hover) {
+    a:hover > .nav-roll > span,
+    [aria-expanded="true"] > .nav-roll > span {
+      transform: translateY(calc(-1.35em - 8px));
+    }
+  }
+  a:focus-visible > .nav-roll > span {
+    transform: translateY(calc(-1.35em - 8px));
+  }
+
+  [data-reveal="hide"] {
+    opacity: 0;
+  }
+  [data-reveal="hide"][data-reveal-v="up"] { translate: 0 24px; }
+  [data-reveal="hide"][data-reveal-v="left"] { translate: -40px 0; }
+  [data-reveal="hide"][data-reveal-v="right"] { translate: 40px 0; }
+  [data-reveal="hide"][data-reveal-v="scale"] { scale: 0.94; }
+  [data-reveal="hide"][data-reveal-v="blur"] { filter: blur(10px); scale: 1.03; }
+  [data-reveal="hide"][data-reveal-v="line"] { translate: 0 22px; }
+
+  [data-reveal="in"] {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+    filter: none;
+    transition:
+      opacity 0.7s var(--ease-chy),
+      translate 0.8s var(--ease-chy),
+      scale 0.8s var(--ease-chy),
+      filter 0.8s var(--ease-chy);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal="in"][data-reveal-v="line"] {
+    animation: var(--animate-line-wipe);
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+  /* About › values rows slide in from alternating sides (AboutUs.dc.html). */
+  [data-reveal="hide"][data-reveal-v="slide-left"] { translate: -70px 0; }
+  [data-reveal="hide"][data-reveal-v="slide-right"] { translate: 70px 0; }
+  [data-reveal="in"]:is([data-reveal-v="slide-left"], [data-reveal-v="slide-right"]) {
+    transition:
+      opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+      translate 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+}
+
+/* ── Reduced motion: disable all transitions & animations ─────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal="hide"] {
+    opacity: 1;
+    translate: none;
+    scale: none;
+    filter: none;
+  }
+}
